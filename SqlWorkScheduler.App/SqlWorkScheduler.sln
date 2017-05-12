@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{A8B848E5-D910-43B1-AEF1-F33D80F87A94}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{820FF7EA-3713-45F0-AC03-BB6C0AA7CCCA}"
+	ProjectSection(SolutionItems) = preProject
+		global.json = global.json
+	EndProjectSection
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "SqlWorkScheduler.App", "src\SqlWorkScheduler.App\SqlWorkScheduler.App.xproj", "{36713054-E10A-4FE9-87E2-2ED1FB2C5F2A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{36713054-E10A-4FE9-87E2-2ED1FB2C5F2A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{36713054-E10A-4FE9-87E2-2ED1FB2C5F2A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{36713054-E10A-4FE9-87E2-2ED1FB2C5F2A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{36713054-E10A-4FE9-87E2-2ED1FB2C5F2A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{36713054-E10A-4FE9-87E2-2ED1FB2C5F2A} = {A8B848E5-D910-43B1-AEF1-F33D80F87A94}
+	EndGlobalSection
+EndGlobal
