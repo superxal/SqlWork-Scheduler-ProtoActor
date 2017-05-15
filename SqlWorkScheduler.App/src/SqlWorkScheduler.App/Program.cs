@@ -25,20 +25,20 @@ namespace SqlWorkScheduler.App
             StaticActors.SaveToDiskActor = Actor.Spawn(props);
 
             var connectionString = "Server=.\\;Initial Catalog=NORTHWND;Integrated Security=true";
-            var parameters = new Dictionary<string, string>() {
-                        { "@CategoryName", "Beverages" },
-                        { "@OrdYear", "1998" }
+            var parameters = new Parameter[] {
+                        new Parameter("@CategoryName", "Beverages"),
+                        new Parameter("@OrdYear", "1998")
                     };
 
-            //StaticActors.SchedulerActor.Tell(
-            //    new ScheduleWorkCmd(
-            //        Guid.NewGuid().ToString(),
-            //        "SalesByCategory",
-            //        connectionString,
-            //        5,
-            //        "http://localhost:3550/",
-            //        parameters
-            //    ));
+            StaticActors.SchedulerActor.Tell(
+                new ScheduleWorkCmd(
+                    Guid.NewGuid().ToString(),
+                    "SalesByCategory",
+                    connectionString,
+                    5,
+                    "http://localhost:3550/",
+                    parameters
+                ));
 
             //StaticActors.SchedulerActor.Tell(
             //    new ScheduleWorkCmd(

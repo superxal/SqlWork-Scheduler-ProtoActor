@@ -34,6 +34,7 @@ namespace SqlWorkScheduler.App.Actors
                     var pid = Actor.Spawn(Actor.FromProducer(() => new WorkPerformerActor()));
                     pid.Tell(new WorkerIntiationCmd(cmd));
                     CancellationTokenSource tokenSource;
+                    
                     _scheduler.ScheduleTellRepeatedly(
                         TimeSpan.Zero,
                         TimeSpan.FromMinutes(cmd.Interval),

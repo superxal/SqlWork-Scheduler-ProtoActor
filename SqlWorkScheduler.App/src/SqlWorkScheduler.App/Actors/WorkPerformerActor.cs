@@ -8,6 +8,12 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Data.SqlClient;
 using System.Data.SqlTypes;
+//using System.Data;
+using System.Xml;
+using System.Data.Common;
+using System.Data;
+using System.Xml.Serialization;
+using Microsoft.SqlServer.Server;
 
 namespace SqlWorkScheduler.App.Actors
 {
@@ -82,13 +88,13 @@ namespace SqlWorkScheduler.App.Actors
                     {
                         if (_cmd.SpParameters != null)
                         {
-                            if (_cmd.SpParameters.Count > 0)
+                            if (_cmd.SpParameters.Length > 0)
                             {
                                 sqlCommand.CommandType = System.Data.CommandType.StoredProcedure;
 
                                 foreach (var parameter in _cmd.SpParameters)
                                 {
-                                    sqlCommand.Parameters.Add(new SqlParameter(parameter.Key, parameter.Value));
+                                    sqlCommand.Parameters.Add(new SqlParameter(parameter.ParameterName, parameter.ParameterValue));
                                 }
                             }
                         }
@@ -99,11 +105,10 @@ namespace SqlWorkScheduler.App.Actors
 
                         using (var reader = sqlCommand.ExecuteReader())
                         {
+                            //reader.Get
                             using(var webStream = await request.GetRequestStreamAsync())
                             {
-                                Serializer.Serialize(webStream, reader);
-                                //DataSerializer.Serialize(webStream, reader);
-                                var response = await request.GetResponseAsync();
+                                Serializer.
                             }
                         }
                     }

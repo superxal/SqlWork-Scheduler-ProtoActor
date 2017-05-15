@@ -10,6 +10,15 @@ using System.Threading.Tasks;
 namespace SqlWorkScheduler.App.Actors
 {
     [ProtoContract]
+    class ProtoParameter
+    {
+        [ProtoMember(1)]
+        public string ParameterName { get; set; }
+        [ProtoMember(2)]
+        public string ParameterValue { get; set; }
+    }
+
+    [ProtoContract]
     class SqlWorkItem
     {
         [ProtoMember(1)]
@@ -23,7 +32,7 @@ namespace SqlWorkScheduler.App.Actors
         [ProtoMember(5)]
         public long LastRun { get; set; }
         [ProtoMember(6)]
-        public Dictionary<string, string> SpParameters { get; set; }
+        public ProtoParameter[] SpParameters { get; set; }
     }
 
     public class SaveToDiskActor : IActor
@@ -38,7 +47,6 @@ namespace SqlWorkScheduler.App.Actors
             if (msg is Started)
             {
                 StartUp();
-
             }
             else if (msg is SaveWorkItemToDiskCmd)
             {
@@ -53,8 +61,14 @@ namespace SqlWorkScheduler.App.Actors
                         Interval = cmd.ScheduleMessage.Interval,
                         LastRun = cmd.ScheduleMessage.LastRun,
                         EndPoint = cmd.ScheduleMessage.EndPoint,
-                        SpParameters = cmd.ScheduleMessage.SpParameters
+                        SpParameters = cmd.ScheduleMessage.SpParameters.Select(x => new ProtoParameter()
+                        {
+                            ParameterName = x.ParameterName,
+                            ParameterValue = x.ParameterValue.ToString()
+                        }
+                        ).ToArray()
                     };
+
                     _workItems.Add(cmd.ScheduleMessage.Id, contract);
                     Save();
                 }
@@ -121,8 +135,10 @@ namespace SqlWorkScheduler.App.Actors
                     // STOP HERE, dumb
                     foreach (var item in _workItems)
                     {
+                        var parameters = item.Value.SpParameters.Select(x => new Parameter(x.ParameterName, x.ParameterValue)).ToArray();
+
                         StaticActors.SchedulerActor
-                            .Tell(new ScheduleWorkCmd(item.Key, item.Value.SqlQuery, item.Value.SqlConnection, item.Value.Interval, item.Value.EndPoint, item.Value.SpParameters, item.Value.LastRun, false));
+                            .Tell(new ScheduleWorkCmd(item.Key, item.Value.SqlQuery, item.Value.SqlConnection, item.Value.Interval, item.Value.EndPoint, parameters, item.Value.LastRun, false));
                     }
                 }
                 else
